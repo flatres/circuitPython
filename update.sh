@@ -7,5 +7,6 @@ sudo mount /dev/sda1 /media/usb
 
 cd 0_master
 cd libs
+cd adafruit
 cd lib
-cp adafruit_rgbled.mpy /media/usb/
+cp adafruit_rgbled.mpy /media/usb/lib/
