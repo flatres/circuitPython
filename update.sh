@@ -1,3 +1,11 @@
 #!/bin/bash
 git stash
 git pull origin main
+
+sudo  mkdir /media/usb
+sudo mount /dev/sda1 /media/usb
+
+cd 0_master
+cd libs
+cd lib
+cp adafruit_rgbled.mpy /media/usb/
