@@ -11,4 +11,4 @@ cd adafruit
 cd lib
 cp adafruit_rgbled.mpy /media/usb/lib/
 cp adafruit_ssd1306.mpy /media/usb/lib/
-cp adafruit_display_text /media/usb/lib/
+cp -r adafruit_display_text /media/usb/lib/
