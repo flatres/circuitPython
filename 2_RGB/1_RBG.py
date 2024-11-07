@@ -20,7 +20,7 @@ while True:
   led.color = (255, 0, 0)
   if switch.value == False:
       led.color = (0, 255, 0)
-      #time.sleep(0.1)
+      #time.sleep(0.2)
 
 # task 1: add a 0.2 second delay after the color
 # changes to green. What happens?
