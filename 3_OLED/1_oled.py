@@ -22,7 +22,7 @@ text_area = label.Label(terminalio.FONT, text=text, x=30, y=15)
 display.root_group.append(text_area)
 time.sleep(1)
 
-seconds = 0.0
+seconds = 0
 started = False
 
 while True:
@@ -39,9 +39,9 @@ while True:
         text_area = label.Label(terminalio.FONT, text=str(seconds), x=60, y=16)
         display.root_group.append(text_area)
         
-        seconds = seconds + 0.1
+        seconds = seconds + 1
         
-        time.sleep(0.1)
+        time.sleep(1)
     
 
 '''CHALLENGES
