@@ -44,7 +44,7 @@ while True:
         time.sleep(1)
     
 
-'''CHALLENGES
+'''CHALLENGESx§
 
 1. Change the splash screen so that the user is given instructions on how to use the timer 
 
