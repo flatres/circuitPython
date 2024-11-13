@@ -44,7 +44,8 @@ while True:
         time.sleep(1)
     
 
-'''CHALLENGESx§
+'''
+CHALLENGES
 
 1. Change the splash screen so that the user is given instructions on how to use the timer 
 
@@ -54,7 +55,7 @@ while True:
 
 4. Add a second button that can be used to reset the timer
 
-5. Add an RGB LED that glows red when the timer is stopped,green when it is running 
+5. Add an RGB LED that glows red when the timer is stopped, green when it is running 
 and flashes blue when it reaches 0
 
 
