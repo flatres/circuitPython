@@ -51,14 +51,12 @@ CHALLENGES
 
 2. Modify the code so that the timer counts down from 10 seconds
 
-3. Modify the code so that pressing the button again pauses the timer
+3. Add an RGB LED that glows red when the timer is stopped, green when it is running 
+and flashes blue when it reaches 0
 
 4. Add a second button that can be used to reset the timer
 
-5. Add an RGB LED that glows red when the timer is stopped, green when it is running 
-and flashes blue when it reaches 0
-
-
+5. Modify the code so that pressing the button again pauses the timer
 
 '''
 
