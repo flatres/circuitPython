@@ -21,3 +21,6 @@ cp -r adafruit_display_text /media/usb/lib/
 cp -r adafruit_bus_device /media/usb/lib/
 cp adafruit_ahtx0.mpy /media/usb/lib/
 
+#motor
+cp -r adafruit_motor /media/usb/lib/
+
