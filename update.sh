@@ -24,3 +24,6 @@ cp adafruit_ahtx0.mpy /media/usb/lib/
 #motor
 cp -r adafruit_motor /media/usb/lib/
 
+#web
+cp adafruit_requests.mpy /media/usb/lib/
+cp adafruit_connection_manager.mpy /media/usb/lib/
