@@ -18,7 +18,7 @@ led = digitalio.DigitalInOut(board.GP13)
 led.direction = digitalio.Direction.OUTPUT
 
 print("Connecting to WiFi")
-wifi.radio.connect("Grid", "A1b2C3d4E5")
+wifi.radio.connect("Grid", "Wu@/=oPi3[/~S$")
 print("Connected to WiFi")
 
 #!!!!COPY AND PASTE THE ACCESS KEY HERE
