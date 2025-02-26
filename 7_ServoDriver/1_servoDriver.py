@@ -16,6 +16,8 @@ servo2 = servo.Servo(pca.channels[1], min_pulse=400, max_pulse=2400)
 servo3 = servo.Servo(pca.channels[2], min_pulse=400, max_pulse=2400)
 servo4 = servo.Servo(pca.channels[3], min_pulse=400, max_pulse=2400)
 
+servo5 = servo.Servo(pca.channels[8], min_pulse=400, max_pulse=2400)
+
 delay = 0.003
 
 while True:
@@ -25,12 +27,15 @@ while True:
         servo2.angle = i
         servo3.angle = i
         servo4.angle = i
+        servo5.angle = i
+        
         time.sleep(delay)
     for i in range(180):
         servo1.angle = 180 - i
         servo2.angle = 180 - i
         servo3.angle = 180 - i
         servo4.angle = 180 - i
+        servo5.angle = 180 - i
         time.sleep(delay)
 
 pca.deinit()
