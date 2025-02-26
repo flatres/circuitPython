@@ -24,7 +24,7 @@ for i in range(180):
     servo2.angle = i
     servo3.angle = i
     servo4.angle = i
-    time.sleep(delat)
+    time.sleep(delay)
 for i in range(180):
     servo1.angle = 180 - i
     servo2.angle = 180 - i
