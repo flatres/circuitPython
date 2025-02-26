@@ -18,18 +18,19 @@ servo4 = servo.Servo(pca.channels[3], min_pulse=400, max_pulse=2400)
 
 delay = 0.003
 
-# We sleep in the loops to give the servo time to move into position.
-for i in range(180):
-    servo1.angle = i
-    servo2.angle = i
-    servo3.angle = i
-    servo4.angle = i
-    time.sleep(delay)
-for i in range(180):
-    servo1.angle = 180 - i
-    servo2.angle = 180 - i
-    servo3.angle = 180 - i
-    servo4.angle = 180 - i
-    time.sleep(delay)
+while True:
+    # We sleep in the loops to give the servo time to move into position.
+    for i in range(180):
+        servo1.angle = i
+        servo2.angle = i
+        servo3.angle = i
+        servo4.angle = i
+        time.sleep(delay)
+    for i in range(180):
+        servo1.angle = 180 - i
+        servo2.angle = 180 - i
+        servo3.angle = 180 - i
+        servo4.angle = 180 - i
+        time.sleep(delay)
 
 pca.deinit()
