@@ -15,7 +15,6 @@ cp adafruit_rgbled.mpy /media/usb/lib/
 cp adafruit_ssd1306.mpy /media/usb/lib/
 cp adafruit_displayio_ssd1306.mpy /media/usb/lib/
 cp adafruit_framebuf.mpy /media/usb/lib/
-cp adafruit_pca9685.mpy /media/usb/lib/
 cp -r adafruit_display_text /media/usb/lib/
 
 #env sensor AHT20
@@ -28,3 +27,7 @@ cp -r adafruit_motor /media/usb/lib/
 #web
 cp adafruit_requests.mpy /media/usb/lib/
 cp adafruit_connection_manager.mpy /media/usb/lib/
+
+#servo driver
+cp adafruit_pca9685.mpy /media/usb/lib/
+cp -r adafruit_register /media/usb/lib/
