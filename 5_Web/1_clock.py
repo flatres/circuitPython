@@ -18,12 +18,13 @@ led = digitalio.DigitalInOut(board.GP13)
 led.direction = digitalio.Direction.OUTPUT
 
 print("Connecting to WiFi")
-wifi.radio.connect("Grid", "Wu@/=oPi3[/~S$")
+wifi.radio.connect("MC-WIFI", "Wu@/=oPi3[/~S$")
 print("Connected to WiFi")
 
 #!!!!COPY AND PASTE THE ACCESS KEY HERE
-key = ""
-TIME_URL = f"https://io.adafruit.com/api/v2/flatres/integrations/time/strftime?x-aio-key={key}"
+k = "aio_"
+k = 'x-aio-key=' + k + "GeLK691wqaYsOf1CDcbAjhH8FUqk"
+TIME_URL = f"https://io.adafruit.com/api/v2/flatres/integrations/time/strftime?{k}"
 TIME_URL += "&fmt=%25H%3A%25M"
 
 display.root_group = displayio.Group()
