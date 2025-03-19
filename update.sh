@@ -31,3 +31,6 @@ cp adafruit_connection_manager.mpy /media/usb/lib/
 #servo driver
 cp adafruit_pca9685.mpy /media/usb/lib/
 cp -r adafruit_register /media/usb/lib/
+
+#keyboard
+cp -r keyboard /media/usb/lib/
