@@ -47,12 +47,12 @@ def move(servo, switch, direction):
     while switch.value == False:
 
         if direction == 'up':
-            print('u' + servo.angle)
+            print('u' + str(int(servo.angle)))
             if servo.angle + servo.inc <= 180:
                 servo.angle = servo.angle + servo.inc
                 time.sleep(servo.delay)
         elif direction == 'down':
-            print('d' + servo.angle)
+            print('d' + str(int(servo.angle)))
             if servo.angle - servo.inc >= 0:
                 servo.angle = servo.angle - servo.inc
                 time.sleep(servo.delay)
@@ -64,7 +64,7 @@ while True:
         move(servo0, switch0U, 'up')
     elif switch0D.value == False:
         print('d')
-        move(servo0, switch0U, 'down')
+        move(servo0, switch0D, 'down')
     else:
         led.value = False
         time.sleep(0.1)
