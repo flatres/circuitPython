@@ -14,15 +14,15 @@ import adafruit_displayio_ssd1306
 i2c = busio.I2C(board.GP17, board.GP16)    # Pi Pico RP2040
 
 # Setup
-displayio.release_displays()
-display_bus = I2CDisplayBus(i2c, device_address=0x3c)
-display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=64)
-display.root_group = displayio.Group()
+#displayio.release_displays()
+#display_bus = I2CDisplayBus(i2c, device_address=0x3c)
+#display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=64)
+#display.root_group = displayio.Group()
 
 # Draw a splash screen
-text = "Loading..."
-text_area = label.Label(terminalio.FONT, text=text, x=30, y=32)
-display.root_group.append(text_area)
+#text = "Loading..."
+#text_area = label.Label(terminalio.FONT, text=text, x=30, y=32)
+#display.root_group.append(text_area)
 
 # Create a simple PCA9685 class instance.
 pca = PCA9685(i2c)
@@ -96,7 +96,7 @@ def printAngle(servo):
 def move(servo, switch, direction):
     led.value = True
     time.sleep(0.1)
-    printAngle(servo)
+    #printAngle(servo)
     while switch.value == False:
         if direction == 'up':
             if servo.type == 'norm':
@@ -119,12 +119,12 @@ def move(servo, switch, direction):
     if servo.type == 'cont':
         servo.angle = contStopped
                 
-    printAngle(servo)
+    #printAngle(servo)
  
-display.root_group = displayio.Group() 
-text = "ready"
-text_area = label.Label(terminalio.FONT, text=text, x=50, y=32)
-display.root_group.append(text_area) 
+#display.root_group = displayio.Group() 
+#text = "ready"
+#text_area = label.Label(terminalio.FONT, text=text, x=50, y=32)
+#display.root_group.append(text_area) 
 
 while True:
 
