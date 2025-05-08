@@ -11,18 +11,22 @@ from i2cdisplaybus import I2CDisplayBus
 from adafruit_display_text import label
 import adafruit_displayio_ssd1306
 
+from eng.default import *
+
+#from eng.default import buttons
+
 i2c = busio.I2C(board.GP17, board.GP16)    # Pi Pico RP2040
 
 # Setup
-#displayio.release_displays()
-#display_bus = I2CDisplayBus(i2c, device_address=0x3c)
-#display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=64)
-#display.root_group = displayio.Group()
+displayio.release_displays()
+display_bus = I2CDisplayBus(i2c, device_address=0x3c)
+display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=64)
+display.root_group = displayio.Group()
 
 # Draw a splash screen
-#text = "Loading..."
-#text_area = label.Label(terminalio.FONT, text=text, x=30, y=32)
-#display.root_group.append(text_area)
+text = "Loading..."
+text_area = label.Label(terminalio.FONT, text=text, x=30, y=32)
+display.root_group.append(text_area)
 
 # Create a simple PCA9685 class instance.
 pca = PCA9685(i2c)
@@ -56,6 +60,14 @@ switch2D = digitalio.DigitalInOut(board.GP7)
 switch2D.direction = digitalio.Direction.INPUT
 switch2D.pull = digitalio.Pull.UP
 
+switch3U = digitalio.DigitalInOut(board.GP8)
+switch3U.direction = digitalio.Direction.INPUT
+switch3U.pull = digitalio.Pull.UP
+
+switch3D = digitalio.DigitalInOut(board.GP9)
+switch3D.direction = digitalio.Direction.INPUT
+switch3D.pull = digitalio.Pull.UP
+
 contStopped = 110
 
 servo0 = servo.Servo(pca.channels[0], min_pulse=400, max_pulse=2400)
@@ -74,10 +86,17 @@ servo1.angle = 90
 
 servo2 = servo.Servo(pca.channels[2], min_pulse=400, max_pulse=2400)
 servo2.name='Servo 2'
-servo2.type = 'cont'
-servo2.inc = 30
+servo2.type = 'norm'
+servo2.inc = 2
 servo2.delay = 0
 servo2.angle = contStopped
+
+servo3 = servo.Servo(pca.channels[3], min_pulse=400, max_pulse=2400)
+servo3.name='Servo 3'
+servo3.type = 'cont'
+servo3.inc = 30
+servo3.delay = 0
+servo3.angle = contStopped
 
 print('running')
 
@@ -93,55 +112,68 @@ def printAngle(servo):
     display.root_group.append(text_area)
 
 
-def move(servo, switch, direction):
+def move(servos, switch, direction):
     led.value = True
     time.sleep(0.1)
+    
     #printAngle(servo)
+    
     while switch.value == False:
         if direction == 'up':
-            if servo.type == 'norm':
-                print(servo.name + ' - u - ' + str(int(servo.angle)))
-                if servo.angle + servo.inc <= 180:
-                    servo.angle = servo.angle + servo.inc
-                    time.sleep(servo.delay)
-            elif servo.type == 'cont':
-                servo.angle = contStopped + servo.inc
+            for s in servos: 
+                if s.type == 'norm':
+                    print(s.name + ' - u - ' + str(int(s.angle)))
+                    check = 180 if s.inc > 0 else 0
+                    if s.angle + s.inc <= check:
+                        s.angle = s.angle + s.inc                        
+                elif s.type == 'cont':
+                    s.angle = contStopped + s.inc
                 
         elif direction == 'down':
-            print(servo.name + ' - d - ' + str(int(servo.angle)))
-            if servo.type == 'norm':
-                if servo.angle - servo.inc >= 0:
-                    servo.angle = servo.angle - servo.inc
-                    time.sleep(servo.delay)
-            elif servo.type == 'cont':
-                servo.angle = contStopped - servo.inc
+            for s in servos:
+                print(s.name + ' - d - ' + str(int(s.angle)))
+                check = 0 if s.inc > 0 else 180
+                if s.type == 'norm':
+                    if s.angle - s.inc >= check:
+                        s.angle = s.angle - s.inc
+                elif s.type == 'cont':
+                    s.angle = contStopped - s.inc
                 
-    if servo.type == 'cont':
-        servo.angle = contStopped
+    for s in servos:
+        printAngle(s)
+        if s.type == 'cont':
+            s.angle = contStopped
                 
-    #printAngle(servo)
+    
  
-#display.root_group = displayio.Group() 
-#text = "ready"
+display.root_group = displayio.Group() 
+text = "ready"
 #text_area = label.Label(terminalio.FONT, text=text, x=50, y=32)
 #display.root_group.append(text_area) 
 
 while True:
 
     if switch0U.value == False:
-        move(servo0, switch0U, 'up')
+        move([servo0, servo1], switch0U, 'up')
     elif switch0D.value == False:
-        move(servo0, switch0D, 'down')
+        move([servo0, servo1], switch0D, 'down')
+        
     elif switch1U.value == False:
-        move(servo1, switch1U, 'up')
+        move([servo1], switch1U, 'up')
     elif switch1D.value == False:
-        move(servo1, switch1D, 'down')
+        move([servo1], switch1D, 'down')
+        
     elif switch2U.value == False:
-        move(servo2, switch2U, 'up')
+        move([servo1], switch2U, 'up')
     elif switch2D.value == False:
-        move(servo2, switch2D, 'down')
+        move([servo1], switch2D, 'down')
+        
+         
+    elif switch3U.value == False and switch0U.value == False:
+        move([servo3], switch0U, 'up')
+        
     else:
         led.value = False
-        time.sleep(0.1)
         
+    time.sleep(0.1)
       

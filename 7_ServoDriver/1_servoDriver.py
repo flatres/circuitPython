@@ -4,7 +4,7 @@ import busio
 from adafruit_motor import servo
 from adafruit_pca9685 import PCA9685
 
-i2c = busio.I2C(board.GP1, board.GP0)    # Pi Pico RP2040
+i2c = busio.I2C(board.GP17, board.GP16)    # Pi Pico RP2040
 
 # Create a simple PCA9685 class instance.
 pca = PCA9685(i2c)

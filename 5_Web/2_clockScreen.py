@@ -8,6 +8,15 @@ from adafruit_display_text import label
 import adafruit_displayio_ssd1306
 
 # Setup
+displayio.release_displays()
+i2c = busio.I2C(board.GP17, board.GP16)  # uses board.SCL and board.SDA
+display_bus = I2CDisplayBus(i2c, device_address=0x3c)
+display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=64)
+display.root_group = displayio.Group()
+
+led = digitalio.DigitalInOut(board.GP13)
+led.direction = digitalio.Direction.OUTPUT
+
 print("Connecting to WiFi")
 wifi.radio.connect("MC-WIFI", "Wu@/=oPi3[/~S$")
 print("Connected to WiFi")
@@ -18,6 +27,10 @@ k = 'x-aio-key=' + k + "GeLK691wqaYsOf1CDcbAjhH8FUqk"
 TIME_URL = f"https://io.adafruit.com/api/v2/flatres/integrations/time/strftime?{k}"
 TIME_URL += "&fmt=%25H%3A%25M"
 
+display.root_group = displayio.Group()
+text = "Connected"
+text_area = label.Label(terminalio.FONT, text=text, x=33, y=32)
+display.root_group.append(text_area)
 time.sleep(1)
 
 pool = socketpool.SocketPool(wifi.radio)
@@ -45,6 +58,22 @@ while True:
     try:
         response = requests.get(TIME_URL)
         print(response.text)
+        
+        #Check the Alarm
+        if response.text == alarmTime:
+            led.value = True
+        else:
+            led.value = False
+            
+        #Write time to screen if it has changed    
+        if response.text == oldTime:
+            time.sleep(0.1)
+        else:
+            display.root_group = displayio.Group()
+            text = response.text
+            oldTime = text
+            text_area = label.Label(terminalio.FONT, text=text, scale=3, x=20, y=22)
+            display.root_group.append(text_area)
         response.close() 
         
     except Exception as e:
