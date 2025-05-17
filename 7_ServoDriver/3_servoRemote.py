@@ -76,6 +76,7 @@ servo0.type = 'norm'
 servo0.inc = 2
 servo0.delay = 0
 servo0.angle = 90
+servo0.default = 90
 
 servo1 = servo.Servo(pca.channels[1], min_pulse=400, max_pulse=2400)
 servo1.name='Servo 1'
@@ -83,6 +84,7 @@ servo1.type = 'norm'
 servo1.inc = 2
 servo1.delay = 0
 servo1.angle = 90
+servo1.default = 90
 
 servo2 = servo.Servo(pca.channels[2], min_pulse=400, max_pulse=2400)
 servo2.name='Servo 2'
@@ -91,6 +93,7 @@ servo2.inc = 2
 servo2.delay = 0
 servo2.angle = contStopped
 
+
 servo3 = servo.Servo(pca.channels[3], min_pulse=400, max_pulse=2400)
 servo3.name='Servo 3'
 servo3.type = 'cont'
@@ -98,52 +101,69 @@ servo3.inc = 30
 servo3.delay = 0
 servo3.angle = contStopped
 
+servo4 = servo.Servo(pca.channels[4], min_pulse=400, max_pulse=2400)
+servo4.name='Servo 4'
+servo4.type = 'norm'
+servo4.inc = 2
+servo4.delay = 0
+servo4.angle = contStopped
+
+servo5 = servo.Servo(pca.channels[5], min_pulse=400, max_pulse=2400)
+servo5.name='Servo 3'
+servo5.type = 'cont'
+servo5.inc = 30
+servo5.delay = 0
+servo5.angle = contStopped
+
+page = 1
+
 print('running')
 
-def printAngle(servo):
+def printAngles():
     #clear the display     
     display.root_group = displayio.Group()
 
     #update time
-    text_area = label.Label(terminalio.FONT, text=servo.name, x=0, y=12)
+    text_area = label.Label(terminalio.FONT, text=str(page), x=0, y=12)
     display.root_group.append(text_area)
 
-    text_area = label.Label(terminalio.FONT, text='Angle: ' + str(int(servo.angle)), x=0, y=32)
+    text_area = label.Label(terminalio.FONT, text=str(int(servo0.angle)) + ' : ' + str(int(servo1.angle)) + ' : ' + str(int(servo2.angle)), x=0, y=32)
+    display.root_group.append(text_area)
+    
+    text_area = label.Label(terminalio.FONT, text=str(int(servo3.angle)) + ' : ' + str(int(servo4.angle)) + ' : ' + str(int(servo5.angle)), x=0, y=42)
     display.root_group.append(text_area)
 
 
-def move(servos, switch, direction):
+def move(servos, switch):
     led.value = True
     time.sleep(0.1)
     
     #printAngle(servo)
-    
     while switch.value == False:
-        if direction == 'up':
-            for s in servos: 
-                if s.type == 'norm':
-                    print(s.name + ' - u - ' + str(int(s.angle)))
-                    check = 180 if s.inc > 0 else 0
-                    if s.angle + s.inc <= check:
-                        s.angle = s.angle + s.inc                        
-                elif s.type == 'cont':
-                    s.angle = contStopped + s.inc
+        for s in servos:
+            if s[1] == 'up':
+                if s[0].type == 'norm':
+                    print(s[0].name + ' - u - ' + str(int(s[0].angle)))
+                    check = 180 if s[0].inc > 0 else 0
+                    if s[0].angle + s[0].inc <= check:
+                        s[0].angle = s[0].angle + s[0].inc                        
+                elif s[0].type == 'cont':
+                    s[0].angle = contStopped + s[0].inc
                 
-        elif direction == 'down':
-            for s in servos:
-                print(s.name + ' - d - ' + str(int(s.angle)))
-                check = 0 if s.inc > 0 else 180
-                if s.type == 'norm':
-                    if s.angle - s.inc >= check:
-                        s.angle = s.angle - s.inc
-                elif s.type == 'cont':
-                    s.angle = contStopped - s.inc
+            elif s[1] == 'down':
+                print(s[0].name + ' - d - ' + str(int(s[0].angle)))
+                check = 0 if s[0].inc > 0 else 180
+                if s[0].type == 'norm':
+                    if s[0].angle - s[0].inc >= check:
+                        s[0].angle = s[0].angle - s[0].inc
+                elif s[0].type == 'cont':
+                    s[0].angle = contStopped - s[0].inc
                 
     for s in servos:
-        printAngle(s)
-        if s.type == 'cont':
-            s.angle = contStopped
-                
+        if s[0].type == 'cont':
+            s[0].angle = contStopped
+    
+    printAngles()
     
  
 display.root_group = displayio.Group() 
@@ -151,29 +171,81 @@ text = "ready"
 #text_area = label.Label(terminalio.FONT, text=text, x=50, y=32)
 #display.root_group.append(text_area) 
 
+printAngles()
+
 while True:
 
-    if switch0U.value == False:
-        move([servo0, servo1], switch0U, 'up')
-    elif switch0D.value == False:
-        move([servo0, servo1], switch0D, 'down')
+    if page == 1:
+        if switch0U.value == False:
+            button = switch0U
+            move([[servo0, 'up'], [servo1, 'up']], button)
+            
+        elif switch0D.value == False:
+            button = switch0D
+            move([[servo0, 'down'], [servo1, 'down']], button)
+            
+        elif switch1U.value == False:
+            button = switch1U
+            move([[servo0, 'up'], [servo1, 'down']], button)
+            
+        elif switch1D.value == False:
+            button = switch1D
+            move([[servo0, 'down'], [servo1, 'up']], button)
+            
+        elif switch2U.value == False:
+            button = switch2U
+            move([[servo0, 'up'], [servo1, 'down']], button)
+            
+        elif switch2D.value == False:
+            button = switch2D
+            move([[servo0, 'down'], [servo1, 'up']], button)
+            
+        else:
+            led.value = False
+            
+    if page == 2:
+        if switch0U.value == False:
+            button = switch0U
+            move([[servo0, 'up'], [servo1, 'up']], button)
+            
+        elif switch0D.value == False:
+            button = switch0D
+            move([[servo0, 'down'], [servo1, 'down']], button)
+            
+        elif switch1U.value == False:
+            button = switch1U
+            move([[servo0, 'up'], [servo1, 'down']], button)
+            
+        elif switch1D.value == False:
+            button = switch1D
+            move([[servo0, 'down'], [servo1, 'up']], button)
+            
+        elif switch2U.value == False:
+            button = switch2U
+            move([[servo0, 'up'], [servo1, 'down']], button)
+            
+        elif switch2D.value == False:
+            button = switch2D
+            move([[servo0, 'down'], [servo1, 'up']], button)
+            
+        else:
+            led.value = False
         
-    elif switch1U.value == False:
-        move([servo1], switch1U, 'up')
-    elif switch1D.value == False:
-        move([servo1], switch1D, 'down')
+    #page switching buttons     
+    if switch3D.value == False:
+        print('page:' + str(page))
+        if page == 1:
+            page = 2
+        elif page == 2:
+            page = 1
+        printAngles()
         
-    elif switch2U.value == False:
-        move([servo1], switch2U, 'up')
-    elif switch2D.value == False:
-        move([servo1], switch2D, 'down')
-        
-         
-    elif switch3U.value == False and switch0U.value == False:
-        move([servo3], switch0U, 'up')
-        
-    else:
-        led.value = False
+    elif switch3U.value == False:
+        print('something special')
+        servo1.angle = servo1.default
+        servo0.angle = servo0.default
+        printAngles()
+    
         
     time.sleep(0.1)
       
